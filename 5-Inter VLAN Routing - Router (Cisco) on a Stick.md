@@ -14,9 +14,9 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 | ------------------- | ------------------------------- |
 | Switch Cisco IOL L2 | Segmentación VLAN               |
 | Router Cisco IOSv   | Enrutamiento, DHCP, NAT         |
-| Alpine Linux XFCE   | Cliente DHCP (VLAN 2518)        |
-| Windows Server      | Cliente DHCP (VLAN 2618)        |
-| VPC                 | Cliente IP estática (VLAN 2718) |
+| Alpine Linux XFCE   | Cliente DHCP (VLAN 25XX)        |
+| Windows Server      | Cliente DHCP (VLAN 26XX)        |
+| VPC                 | Cliente IP estática (VLAN 27XX) |
 
 **Conexiones:**
 |        |          |         |          |
@@ -31,9 +31,9 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 |      |         |                |                     |
 | ---- | ------- | -------------- | ------------------- |
 | VLAN | Nombre  | Subred         | Tipo                |
-| 2518 | ALFA    | 172.25.35.0/24 | Cliente DHCP        |
-| 2618 | OMEGA   | 172.26.35.0/24 | Cliente DHCP        |
-| 2718 | EPSILON | 172.20.35.0/24 | Cliente IP estática |
+| 2518 | ALFA    | 172.25.XX.0/24 | Cliente DHCP        |
+| 2618 | OMEGA   | 172.26.XX.0/24 | Cliente DHCP        |
+| 2718 | EPSILON | 172.20.XX.0/24 | Cliente IP estática |
 | 2818 | NATIVA  | - (sin IP)     | VLAN nativa trunk   |
 
 ![Inter VLAN](Imagenes/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick.png)
@@ -44,13 +44,13 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 
 ### 1. Crear VLANs
 ```batch
-vlan 2518
+vlan 25XX
  name ALFA
-vlan 2618
+vlan 26XX
  name OMEGA
-vlan 2718
+vlan 27XX
  name EPSILON
-vlan 2818
+vlan 28XX
  name NATIVA
 ```
 
@@ -59,17 +59,17 @@ vlan 2818
 ```batch
 interface e0/1
  switchport mode access
- switchport access vlan 2518
+ switchport access vlan 25XX
  spanning-tree portfast
 
 interface e0/2
  switchport mode access
- switchport access vlan 2618
+ switchport access vlan 26XX
  spanning-tree portfast
 
 interface e0/3
  switchport mode access
- switchport access vlan 2718
+ switchport access vlan 27XX
  spanning-tree portfast
 ```
 ### 3. Configurar el puerto trunk
@@ -78,7 +78,7 @@ interface e0/3
 interface e0/0
  switchport trunk encapsulation dot1q
  switchport mode trunk
- switchport trunk native vlan 2818
+ switchport trunk native vlan 28XX
  switchport nonegotiate
 ```
 
@@ -88,19 +88,19 @@ interface e0/0
 ### 1. Crear subinterfaces con gateway para cada VLAN
 
 ```batch
-interface e0/1.2518
- encapsulation dot1Q 2518
- ip address 172.25.35.1 255.255.255.0
+interface e0/1.25XX
+ encapsulation dot1Q 25XX
+ ip address 172.25.XX.1 255.255.255.0
  no shutdown
 
-interface e0/1.2618
- encapsulation dot1Q 2618
- ip address 172.26.35.1 255.255.255.0
+interface e0/1.26XX
+ encapsulation dot1Q 26XX
+ ip address 172.26.XX.1 255.255.255.0
  no shutdown
 
-interface e0/1.2718
- encapsulation dot1Q 2718
- ip address 172.20.35.1 255.255.255.0
+interface e0/1.27XX
+ encapsulation dot1Q 27XX
+ ip address 172.20.XX.1 255.255.255.0
  no shutdown
 
 interface e0/1
@@ -109,17 +109,17 @@ interface e0/1
 ### 2. Configurar DHCP por VLAN
 
 ```batch
-ip dhcp excluded-address 172.25.35.1 172.25.35.10
-ip dhcp excluded-address 172.26.35.1 172.26.35.10
+ip dhcp excluded-address 172.25.XX.1 172.25.XX.10
+ip dhcp excluded-address 172.26.XX.1 172.26.XX.10
 
-ip dhcp pool VLAN2518
- network 172.25.35.0 255.255.255.0
- default-router 172.25.35.1
+ip dhcp pool VLAN25XX
+ network 172.25.XX.0 255.255.255.0
+ default-router 172.25.XX.1
  dns-server 8.8.8.8
 
-ip dhcp pool VLAN2618
- network 172.26.35.0 255.255.255.0
- default-router 172.26.35.1
+ip dhcp pool VLAN26XX
+ network 172.26.XX.0 255.255.255.0
+ default-router 172.26.XX.1
  dns-server 8.8.8.8
 ```
 
@@ -133,16 +133,16 @@ interface e0/0
 
 interface e0/1
  ip nat inside
-interface e0/1.2518
+interface e0/1.25XX
  ip nat inside
-interface e0/1.2618
+interface e0/1.26XX
  ip nat inside
-interface e0/1.2718
+interface e0/1.27XX
  ip nat inside
 
-access-list 1 permit 172.25.35.0 0.0.0.255
-access-list 1 permit 172.26.35.0 0.0.0.255
-access-list 1 permit 172.20.35.0 0.0.0.255
+access-list 1 permit 172.25.XX.0 0.0.0.255
+access-list 1 permit 172.26.XX.0 0.0.0.255
+access-list 1 permit 172.20.XX.0 0.0.0.255
 
 ip nat inside source list 1 interface e0/0 overload
 ```
@@ -150,7 +150,7 @@ ip nat inside source list 1 interface e0/0 overload
 ## 💼 CONFIGURACIÓN VPC (VLAN 2718 - IP ESTÁTICA)
 
 ```batch
-ip 172.20.35.10 255.255.255.0 172.20.35.1
+ip 172.20.XX.10 255.255.255.0 172.20.XX.1
 dns 8.8.8.8
 ```
 
