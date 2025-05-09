@@ -17,8 +17,8 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 | Alpine Linux XFCE   | Cliente DHCP (VLAN 2518)        |
 | Windows Server      | Cliente DHCP (VLAN 2618)        |
 | VPC                 | Cliente IP estática (VLAN 2718) |
-**Conexiones:**
 
+**Conexiones:**
 |        |          |         |          |
 | ------ | -------- | ------- | -------- |
 | Origen | Interfaz | Destino | Interfaz |
@@ -28,7 +28,6 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 | Switch | e0/3     | VPC     | eth0     |
 
 **VLANs utilizadas:**
-
 |      |         |                |                     |
 | ---- | ------- | -------------- | ------------------- |
 | VLAN | Nombre  | Subred         | Tipo                |
