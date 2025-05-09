@@ -37,7 +37,8 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 | 2718 | EPSILON | 172.20.35.0/24 | Cliente IP estática |
 | 2818 | NATIVA  | - (sin IP)     | VLAN nativa trunk   |
 
-![Texto alternativo](Imagenes/6-Inter VLAN Routing - Router (Cisco) on a Stick/6-Inter VLAN Routing - Router (Cisco) on a Stick.png)
+![Inter VLAN](Imagenes/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick.png)
+
 
 ---
 ## 🔧 CONFIGURACIÓN DEL SWITCH L2
