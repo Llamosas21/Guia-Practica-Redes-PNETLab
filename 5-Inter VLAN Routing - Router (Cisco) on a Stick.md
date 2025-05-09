@@ -31,10 +31,10 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 |      |         |                |                     |
 | ---- | ------- | -------------- | ------------------- |
 | VLAN | Nombre  | Subred         | Tipo                |
-| 2518 | ALFA    | 172.25.XX.0/24 | Cliente DHCP        |
-| 2618 | OMEGA   | 172.26.XX.0/24 | Cliente DHCP        |
-| 2718 | EPSILON | 172.20.XX.0/24 | Cliente IP estática |
-| 2818 | NATIVA  | - (sin IP)     | VLAN nativa trunk   |
+| 25XX | ALFA    | 172.25.XX.0/24 | Cliente DHCP        |
+| 26XX | OMEGA   | 172.26.XX.0/24 | Cliente DHCP        |
+| 27XX | EPSILON | 172.20.XX.0/24 | Cliente IP estática |
+| 28XX | NATIVA  | - (sin IP)     | VLAN nativa trunk   |
 
 ![Inter VLAN](Imagenes/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick.png)
 
