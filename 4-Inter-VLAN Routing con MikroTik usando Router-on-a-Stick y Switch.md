@@ -1,140 +1,229 @@
 
-### Requisitos:
+## REQUISITOS DEL LABORATORIO
 
-- Cloud0 (Management):1
-- Windows Server:  1 
-- Router Mikrotik:  1 
-- Computadoras: 1
-- Linux Server:  1
-- Switch: 1
-### Aclaraciones
-- La imagen del servidor Linux será la linux-alpine-xfce.
-- El Network (ISP), será el Managment(Cloud0).
-- Se trabajará solamente con la consola, aunque se pueden usar softwares como Winbox.
-- Las IPs pueden variar ya que se usará el protocolo DHCP.
+### 🧩 OBJETIVO GENERAL
 
-### Conexión:
+Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) utilizando un switch, un router Mikrotik y varios dispositivos finales, con:
+- **Inter-VLAN Routing**
+- **Servidor DHCP por VLAN**
+- **NAT para salida a Internet**
+- **VLAN nativa para trunk**
 
-![[Esquema 4.png]]
+---
 
-### PASOS A SEGUIR:
+### 💪 TOPOLOGÍA Y ELEMENTOS
 
- #### Switch:
-- [[2-Comunicación entre dos VLANs gestionadas por un Switch#Crear VLANs en Switch (Capa 2)|Crear las VLANs en Switch (VLAN Primaria y VLAN Secundaria)]]
-- [[3-Configuración de IPs, Hostnames, VLANs y Troncales en Switches#Modo acceso (access)|Configurar los puertos en modo acceso en el Switch]]
-- [[3-Configuración de IPs, Hostnames, VLANs y Troncales en Switches#Configuración de puertos del Switch Trunk|Asignar la VLAN de tipo TRUNK en el Switch]] 
+**Dispositivos usados:**
 
-| Nombre          | VLAN ID | Subred          | Máscara |
-| --------------- | ------- | --------------- | ------- |
-| VLAN Primaria   | 2209    | 172.22.17.0/24  | /24     |
-| VLAN Secundaria | 2309    | 172.23.17.0/24  | /24     |
-| VLAN Nativa     | 2409    | (Para el Trunk) | /24     |
+| Dispositivo        | Cantidad | Función                         | Imagen de Referencia |
+|--------------------|----------|---------------------------------|-----------------------|
+| Cloud0 (Management)| 1        | Conexión a Internet (ISP)       |                       |
+| Windows Server     | 1        | Cliente DHCP (VLAN Secundaria)  |                       |
+| Router Mikrotik    | 1        | Enrutamiento, DHCP, NAT         |                       |
+| Computadora        | 1        | Cliente DHCP (VLAN Primaria)    |                       |
+| Linux Server       | 1        | Cliente DHCP (VLAN Primaria)    | linux-alpine-xfce     |
+| Switch             | 1        | Segmentación VLAN               |                       |
 
-#### Router Mikrotik:
+**Conexiones:**
 
-##### **IMPORTANTE**: 
+![Inter VLAN](Imagenes/Inter-VLAN%20Routing%20con%20MikroTik%20usando%20Router-on-a-Stick%20y%20Switch/Esquema%204.png)
 
- La primera vez que se conecte, va a pedir un usuario (admin) y una contraseña que por default está vacía, luego va a aparecer algo como esto:
+**VLANs utilizadas:**
 
-	o you want to see the software license? [Y/n]: n
-	En donde se recomineda no ver la licencia. 
+| VLAN | Nombre          | Subred            | Máscara | Tipo              |
+|------|-----------------|-------------------|---------|-------------------|
+| 2209 | VLAN Primaria   | 172.22.17.0/24    | /24     | Cliente DHCP      |
+| 2309 | VLAN Secundaria | 172.23.17.0/24    | /24     | Cliente DHCP      |
+| 2009 | VLAN Admin      | 172.20.17.0/24    | /24     | Cliente IP Estática |
+| 2409 | VLAN Nativa     | (Para el Trunk)   | /24     | VLAN nativa trunk |
 
-Finalmente se les pedirá una nueva contraseña luego del primer Enter se les pedirá que la escriban una vez más, si amabas coinciden mostrará este mensaje:
+---
 
-	Change your password  
-	    
-	new password> *****  
-	repeat new password> *****  
-	  
-	Password changed  
-	[admin@MikroTik] >
+## 🔧 CONFIGURACIÓN DEL SWITCH
 
+### 1. Crear VLANs
 
-#### Configurar el Router MikroTik (Router-on-a-Stick):
- 
-###### Crear las interfaces VLAN sobre la física definida en el Switch:
+```batch
+enable
+conf t
+vlan 2209
+ name VLAN_Primaria
+exit
+vlan 2309
+ name VLAN_Secundaria
+exit
+vlan 2009
+ name VLAN_Admin
+exit
+vlan 2409
+ name VLAN_Nativa
+exit
+```
 
-- [[#**IMPORTANTE**|Leer en caso de problemas]]
- 
- Dentro de la consola de Mikrotik, procedemos a irnos a la interfaz y luego agregaremos cada una de las VLANs, tener presente que ether2 es el puerto del router que va al Switch.
- 
-	/interface vlan  
-	/interface/vlan> add interface=ether2 name=vlan_primaria vlan-id=2209  
-	/interface/vlan> add interface=ether2 name=vlan_secundaria vlan-id=2309  
-	/interface/vlan>
+### 2. Configurar los puertos en modo access
 
+```batch
+int eth0/1
+ switchport mode access
+ switchport access vlan 2209
+exit
 
-###### Asignar IPs a las Interfaces VLAN del Mikrotik:
+int eth0/2
+ switchport mode access
+ switchport access vlan 2309
+exit
 
-	/ip address 
-	/ip/address> add address=172.22.17.1/24 interface=vlan_primaria  
-	/ip/address> add address=172.23.17.1/24 interface=vlan_secundaria  
+int eth0/3
+ switchport mode access
+ switchport access vlan 2009
+exit
+```
 
- Las IPs `X.X.X.1` son las puertas de enlace (gateway), para cada VLAN.
+### 3. Configurar el puerto eth0/0 en TRUNK
 
-##### Crear servidores DHCP por VLAN:
+```batch
+int e0/0
+ sw tr enc dot1q
+ sw mo tr
+ sw tr nat vlan 2409
+ sw tr all vlan 2009,2209,2309,2409
+exit
+exit
+wr
+```
 
-###### DHCP Primaria
+### 4. Comprobar configuración de VLANs
 
-	/ip pool
-	add name=dhcp_pool_2209 ranges=172.22.17.100-172.22.17.200
-	
-	/ip dhcp-server
-	add name=dhcp_primaria interface=vlan_primaria address-pool=dhcp_pool_2209 lease-time=1h disabled=no
-	
-	/ip dhcp-server network
-	add address=172.22.17.0/24 gateway=172.22.17.1 dns-server=8.8.8.8
+```batch
+exit
+sh vl br
+```
 
-###### DHCP Secundaria
+**Resultado esperado:**
 
-	/ip pool
-	add name=dhcp_pool_2309 ranges=172.23.17.100-172.23.17.200
-	
-	/ip dhcp-server
-	add name=dhcp_secundaria interface=vlan_secundaria address-pool=dhcp_pool_2309 lease-time=1h disabled=no
-	
-	/ip dhcp-server network
-	add address=172.23.17.0/24 gateway=172.23.17.1 dns-server=8.8.8.8
+```
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+2009 VLAN_Admin                       active    Et0/3
+2209 VLAN_Primaria                    active    Et0/1
+2309 VLAN_Secundaria                  active    Et0/2
+2409 VLAN_Nativa                      active
+```
 
-###### Configurar NAT para Internet (Firewall)
+### 5. Comprobar configuración del puerto Trunk
 
-	/ip firewall nat
-	add chain=srcnat out-interface=ether1 action=masquerade
+```batch
+Switch#sh int eth0/0 sw
+```
 
-El puerto a seleccionar debe ser el que se conecta con el en este caso Cloud0 (el ISP)
+**Resultado esperado:**
 
+```
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+Administrative Trunking Encapsulation: dot1q
+Operational Trunking Encapsulation: dot1q
+```
 
-##### Asignar IP estática a una VPCs 
+---
 
-**Mikrotik**:
+## 🚀 CONFIGURACIÓN DEL ROUTER MIKROTIK
 
-	/ip address
-	add address=172.20.17.1/24 interface=ether2
-	
-	/ip firewall nat
-	add chain=srcnat out-interface=ether1 src-address=172.20.17.0/24 action=masquerade
-	
-	/system backup save
+**IMPORTANTE:**
 
-SWITCH:
+La primera vez que se conecte, va a pedir un usuario (admin) y una contraseña que por defecto está vacía, luego va a aparecer algo como esto:
 
-	conf t
-	int eth0/3
-	sw acc vlan 2409
-	exit
+```
+Do you want to see the software license? [Y/n]: n
+```
 
-Lo que hace esto es camiar la conexión a esto:
+En donde se recomienda no ver la licencia.
 
-| VLAN | Name               | Status    | Ports                        |
-| ---: | ------------------ | --------- | ---------------------------- |
-|    1 | default            | active    |                              |
-| 1002 | fddi-default       | act/unsup |                              |
-| 1003 | token-ring-default | act/unsup |                              |
-| 1004 | fddinet-default    | act/unsup |                              |
-| 1005 | trnet-default      | act/unsup |                              |
-| 2209 | VLAN Primaria      | active    | Et0/1                        |
-| 2309 | VLAN Secundaria    | active    | Et0/2                        |
-| 2409 | VLAN2409           | active    | Et0/3 *(Trunk)* *Puerto VPCs |
+Finalmente se les pedirá una nueva contraseña luego del primer Enter se les pedirá que la escriban una vez más, si ambas coinciden mostrará este mensaje:
 
+```
+Change your password
 
+new password> *****
+repeat new password> *****
 
+Password changed
+[admin@MikroTik] >
+```
+
+### 1. Crear las interfaces VLAN sobre la física definida en el Switch
+
+```batch
+/interface vlan
+add interface=ether2 name=vlan_primaria vlan-id=2209
+add interface=ether2 name=vlan_secundaria vlan-id=2309
+add interface=ether2 name=vlan_admin vlan-id=2009
+add interface=ether2 name=vlan_nativa vlan-id=2409
+```
+
+### 2. Asignar IPs a las Interfaces VLAN del Mikrotik
+
+```batch
+/ip address
+add address=172.22.17.1/24 interface=vlan_primaria
+add address=172.23.17.1/24 interface=vlan_secundaria
+add address=172.20.17.1/24 interface=vlan_admin
+```
+
+*Las IPs X.X.X.1 son las puertas de enlace (gateway), para cada VLAN.*
+
+### 3. Crear servidores DHCP por VLAN
+
+**DHCP Primaria**
+
+```batch
+/ip pool
+add name=dhcp_pool_2209 ranges=172.22.17.100-172.22.17.200
+
+/ip dhcp-server
+add name=dhcp_primaria interface=vlan_primaria address-pool=dhcp_pool_2209 lease-time=1h disabled=no
+
+/ip dhcp-server network
+add address=172.22.17.0/24 gateway=172.22.17.1 dns-server=8.8.8.8
+```
+
+**DHCP Secundaria**
+
+```batch
+/ip pool
+add name=dhcp_pool_2309 ranges=172.23.17.100-172.23.17.200
+
+/ip dhcp-server
+add name=dhcp_secundaria interface=vlan_secundaria address-pool=dhcp_pool_2309 lease-time=1h disabled=no
+
+/ip dhcp-server network
+add address=172.23.17.0/24 gateway=172.23.17.1 dns-server=8.8.8.8
+```
+
+### 4. Configurar NAT para Internet (Firewall)
+
+```batch
+/ip firewall nat
+add chain=srcnat out-interface=ether1 action=masquerade
+/system backup save
+```
+
+*El puerto a seleccionar (ether1) debe ser el que se conecta con el ISP (Cloud0 en este caso).*
+
+---
+
+## 💼 CONFIGURACIÓN VPC (VLAN Admin - IP ESTÁTICA)
+
+```batch
+ip 172.20.17.10 255.255.255.0 172.20.17.1
+```
+
+---
+
+*Santiago Llamosas - Red de Laboratorio - Router on a Stick*
