@@ -226,4 +226,44 @@ ip 172.20.17.10 255.255.255.0 172.20.17.1
 
 ---
 
+## 🔌 PRUEBAS DE CONECTIVIDAD
+
+### Desde la Computadora (VLAN Primaria - DHCP):
+
+- Asegurarse de que la computadora reciba una dirección IP mediante DHCP en el rango 172.22.17.100 - 172.22.17.200.
+- Abrir la consola o terminal y ejecutar:
+  ```batch
+  ping 172.22.17.1   # Ping al gateway de la VLAN Primaria
+  ping 172.23.17.1   # Ping al gateway de la VLAN Secundaria (Inter-VLAN)
+  ping 172.20.17.1   # Ping al gateway de la VLAN Admin (Inter-VLAN)
+  ping 8.8.8.8      # Ping a un servidor DNS público (Prueba de salida a Internet)
+  ping [www.google.com](https://www.google.com) # Ping a un sitio web (Prueba de salida a Internet)
+  ```
+
+### Desde Windows Server (VLAN Secundaria - DHCP):
+
+- Asegurarse de que el servidor reciba una dirección IP mediante DHCP en el rango 172.23.17.100 - 172.23.17.200.
+- Abrir el símbolo del sistema y ejecutar:
+  ```batch
+  ping 172.23.17.1   # Ping al gateway de la VLAN Secundaria
+  ping 172.22.17.1   # Ping al gateway de la VLAN Primaria (Inter-VLAN)
+  ping 172.20.17.1   # Ping al gateway de la VLAN Admin (Inter-VLAN)
+  ping 8.8.8.8      # Ping a un servidor DNS público (Prueba de salida a Internet)
+  ping [www.google.com](https://www.google.com) # Ping a un sitio web (Prueba de salida a Internet)
+  ```
+
+### Desde el dispositivo con IP estática (VLAN Admin):
+
+- Asegurarse de que el dispositivo tenga la IP configurada: 172.20.17.10 con máscara 255.255.255.0 y gateway 172.20.17.1.
+- Abrir la consola o terminal y ejecutar:
+  ```batch
+  ping 172.20.17.1   # Ping al gateway de la VLAN Admin
+  ping 172.22.17.1   # Ping al gateway de la VLAN Primaria (Inter-VLAN)
+  ping 172.23.17.1   # Ping al gateway de la VLAN Secundaria (Inter-VLAN)
+  ping 8.8.8.8      # Ping a un servidor DNS público (Prueba de salida a Internet)
+  ping [www.google.com](https://www.google.com) # Ping a un sitio web (Prueba de salida a Internet)
+  ```
+
+---
+
 *Santiago Llamosas - Red de Laboratorio - Router on a Stick*
