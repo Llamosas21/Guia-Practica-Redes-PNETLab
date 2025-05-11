@@ -36,7 +36,7 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) usando un
 | 27XX | EPSILON | 172.20.XX.0/24 | Cliente IP estática |
 | 28XX | NATIVA  | - (sin IP)     | VLAN nativa trunk   |
 
-![Inter VLAN](Imagenes/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick/6-Inter%20VLAN%20Routing%20-%20Router%20(Cisco)%20on%20a%20Stick.png)
+![Inter VLAN](Imagenes/5-Inter VLAN Routing - Router (Cisco) on a Stick/Inter VLAN Routing - Router (Cisco) on a Stick.png)
 
 
 ---
