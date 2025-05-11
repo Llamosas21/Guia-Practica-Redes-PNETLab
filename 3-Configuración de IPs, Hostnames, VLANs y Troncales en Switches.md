@@ -17,7 +17,7 @@ Para esta conexión se utilizarán los siguientes rangos:
 	Nombre: PROFESORES
 	IP red: 172.20.200.0/16
 
-![[Esquema 3.png]]
+![Inter VLAN](Imagenes/3-Configuración%20de%20IPs%2C%20Hostnames%2C%20VLANs%20y%20Troncales%20en%20Switches/Esquema%203.png)
 
 
 #### PASOS A SEGUIR:
