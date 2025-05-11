@@ -26,7 +26,7 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) utilizand
 
 **Conexiones:**
 
-![Inter VLAN](Imagenes/Inter-VLAN%20Routing%20con%20MikroTik%20usando%20Router-on-a-Stick%20y%20Switch/Esquema%204.png)
+![Inter VLAN](Imagenes/4-Inter-VLAN%20Routing%20con%20MikroTik%20usando%20Router-on-a-Stick%20y%20Switch/Esquema%204.png)
 
 **VLANs utilizadas:**
 
