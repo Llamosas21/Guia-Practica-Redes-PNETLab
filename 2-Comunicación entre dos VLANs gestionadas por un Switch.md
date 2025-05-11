@@ -18,7 +18,7 @@ Para esta conexión se utilizarán los siguientes rangos:
 	IP red: 172.20.200.0/16
 
 
-![Inter VLAN](Imagenes/2-Conexión%20entre%20dos%20PCs%20por%20medio%20de%20un%20Switch/Esquema%202.png)
+![Inter VLAN](Imagenes/2-Comunicación%20entre%20dos%20VLANs%20gestionadas%20por%20un%20Switch/Esquema%202.png)
 
 
 
