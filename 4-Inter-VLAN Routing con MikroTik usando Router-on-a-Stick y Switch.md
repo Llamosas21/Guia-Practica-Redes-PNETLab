@@ -32,9 +32,9 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) utilizand
 
 | VLAN | Nombre          | Subred            | Máscara | Tipo              |
 |------|-----------------|-------------------|---------|-------------------|
-| 2209 | VLAN Primaria   | 172.22.17.0/24    | /24     | Cliente DHCP      |
-| 2309 | VLAN Secundaria | 172.23.17.0/24    | /24     | Cliente DHCP      |
-| 2009 | VLAN Admin      | 172.20.17.0/24    | /24     | Cliente IP Estática |
+| 2209 | VLAN Primaria   | 172.22.xx.0/24    | /24     | Cliente DHCP      |
+| 2309 | VLAN Secundaria | 172.23.xx.0/24    | /24     | Cliente DHCP      |
+| 2009 | VLAN Admin      | 172.20.xx.0/24    | /24     | Cliente IP Estática |
 | 2409 | VLAN Nativa     | (Para el Trunk)   | /24     | VLAN nativa trunk |
 
 ---
@@ -171,9 +171,9 @@ add interface=ether2 name=vlan_nativa vlan-id=2409
 
 ```batch
 /ip address
-add address=172.22.17.1/24 interface=vlan_primaria
-add address=172.23.17.1/24 interface=vlan_secundaria
-add address=172.20.17.1/24 interface=vlan_admin
+add address=172.22.xx.1/24 interface=vlan_primaria
+add address=172.23.xx.1/24 interface=vlan_secundaria
+add address=172.20.xx.1/24 interface=vlan_admin
 ```
 
 *Las IPs X.X.X.1 son las puertas de enlace (gateway), para cada VLAN.*
@@ -184,26 +184,26 @@ add address=172.20.17.1/24 interface=vlan_admin
 
 ```batch
 /ip pool
-add name=dhcp_pool_2209 ranges=172.22.17.100-172.22.17.200
+add name=dhcp_pool_2209 ranges=172.22.xx.100-172.22.xx.200
 
 /ip dhcp-server
 add name=dhcp_primaria interface=vlan_primaria address-pool=dhcp_pool_2209 lease-time=1h disabled=no
 
 /ip dhcp-server network
-add address=172.22.17.0/24 gateway=172.22.17.1 dns-server=8.8.8.8
+add address=172.22.xx.0/24 gateway=172.22.xx.1 dns-server=8.8.8.8
 ```
 
 **DHCP Secundaria**
 
 ```batch
 /ip pool
-add name=dhcp_pool_2309 ranges=172.23.17.100-172.23.17.200
+add name=dhcp_pool_2309 ranges=172.23.xx.100-172.23.xx.200
 
 /ip dhcp-server
 add name=dhcp_secundaria interface=vlan_secundaria address-pool=dhcp_pool_2309 lease-time=1h disabled=no
 
 /ip dhcp-server network
-add address=172.23.17.0/24 gateway=172.23.17.1 dns-server=8.8.8.8
+add address=172.23.xx.0/24 gateway=172.23.xx.1 dns-server=8.8.8.8
 ```
 
 ### 4. Configurar NAT para Internet (Firewall)
@@ -221,7 +221,7 @@ add chain=srcnat out-interface=ether1 action=masquerade
 ## 💼 CONFIGURACIÓN VPC (VLAN Admin - IP ESTÁTICA)
 
 ```batch
-ip 172.20.17.10 255.255.255.0 172.20.17.1
+ip 172.20.xx.xx 255.255.255.0 172.20.xx.1
 ```
 
 ---
@@ -233,21 +233,21 @@ ip 172.20.17.10 255.255.255.0 172.20.17.1
 - Asegurarse de que la computadora reciba una dirección IP mediante DHCP en el rango 172.22.17.100 - 172.22.17.200.
 - Abrir la consola o terminal y ejecutar:
   ```batch
-  ping 172.22.17.1   # Ping al gateway de la VLAN Primaria
-  ping 172.23.17.1   # Ping al gateway de la VLAN Secundaria (Inter-VLAN)
-  ping 172.20.17.1   # Ping al gateway de la VLAN Admin (Inter-VLAN)
+  ping 172.22.xx.xx   # Ping al gateway de la VLAN Primaria
+  ping 172.23.xx.xx   # Ping al gateway de la VLAN Secundaria (Inter-VLAN)
+  ping 172.20.xx.xx   # Ping al gateway de la VLAN Admin (Inter-VLAN)
   ping 8.8.8.8      # Ping a un servidor DNS público (Prueba de salida a Internet)
   ping [www.google.com](https://www.google.com) # Ping a un sitio web (Prueba de salida a Internet)
   ```
 
 ### Desde Windows Server (VLAN Secundaria - DHCP):
 
-- Asegurarse de que el servidor reciba una dirección IP mediante DHCP en el rango 172.23.17.100 - 172.23.17.200.
+- Asegurarse de que el servidor reciba una dirección IP mediante DHCP en el rango 172.23.xx.100 - 172.23.xx.200.
 - Abrir el símbolo del sistema y ejecutar:
   ```batch
-  ping 172.23.17.1   # Ping al gateway de la VLAN Secundaria
-  ping 172.22.17.1   # Ping al gateway de la VLAN Primaria (Inter-VLAN)
-  ping 172.20.17.1   # Ping al gateway de la VLAN Admin (Inter-VLAN)
+  ping 172.23.xx.1   # Ping al gateway de la VLAN Secundaria
+  ping 172.22.xx.1   # Ping al gateway de la VLAN Primaria (Inter-VLAN)
+  ping 172.20.xx.1   # Ping al gateway de la VLAN Admin (Inter-VLAN)
   ping 8.8.8.8      # Ping a un servidor DNS público (Prueba de salida a Internet)
   ping [www.google.com](https://www.google.com) # Ping a un sitio web (Prueba de salida a Internet)
   ```
@@ -257,9 +257,9 @@ ip 172.20.17.10 255.255.255.0 172.20.17.1
 - Asegurarse de que el dispositivo tenga la IP configurada: 172.20.17.10 con máscara 255.255.255.0 y gateway 172.20.17.1.
 - Abrir la consola o terminal y ejecutar:
   ```batch
-  ping 172.20.17.1   # Ping al gateway de la VLAN Admin
-  ping 172.22.17.1   # Ping al gateway de la VLAN Primaria (Inter-VLAN)
-  ping 172.23.17.1   # Ping al gateway de la VLAN Secundaria (Inter-VLAN)
+  ping 172.20.xx.1   # Ping al gateway de la VLAN Admin
+  ping 172.22.xx.1   # Ping al gateway de la VLAN Primaria (Inter-VLAN)
+  ping 172.23.xx.1   # Ping al gateway de la VLAN Secundaria (Inter-VLAN)
   ping 8.8.8.8      # Ping a un servidor DNS público (Prueba de salida a Internet)
   ping [www.google.com](https://www.google.com) # Ping a un sitio web (Prueba de salida a Internet)
   ```
