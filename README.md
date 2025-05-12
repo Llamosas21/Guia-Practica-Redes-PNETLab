@@ -8,6 +8,7 @@ Este repositorio contiene una serie de prácticas de configuración de redes de 
 - **2. Comunicación entre dos VLANs gestionadas por un Switch**
 - **3. Configuración de IPs, Hostnames, VLANs y Troncales en Switches**
 - **4. Inter-VLAN Routing con MikroTik usando Router-on-a-Stick y Switch**
+- **5. Inter VLAN Routing - Router (Cisco) on a Stick**
 
 Cada práctica incluye los pasos de configuración necesarios y conceptos básicos para entender su implementación.
 
