@@ -32,10 +32,10 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) utilizand
 
 | VLAN | Nombre          | Subred            | Máscara | Tipo              |
 |------|-----------------|-------------------|---------|-------------------|
-| 2209 | VLAN Primaria   | 172.22.xx.0/24    | /24     | Cliente DHCP      |
-| 2309 | VLAN Secundaria | 172.23.xx.0/24    | /24     | Cliente DHCP      |
-| 2009 | VLAN Admin      | 172.20.xx.0/24    | /24     | Cliente IP Estática |
-| 2409 | VLAN Nativa     | (Para el Trunk)   | /24     | VLAN nativa trunk |
+| 22XX | VLAN Primaria   | 172.22.xx.0/24    | /24     | Cliente DHCP      |
+| 23XX | VLAN Secundaria | 172.23.xx.0/24    | /24     | Cliente DHCP      |
+| 20XX | VLAN Admin      | 172.20.xx.0/24    | /24     | Cliente IP Estática |
+| 24XX | VLAN Nativa     | (Para el Trunk)   | /24     | VLAN nativa trunk |
 
 ---
 
@@ -46,16 +46,16 @@ Implementar un esquema de enrutamiento entre VLANs (Router-on-a-Stick) utilizand
 ```batch
 enable
 conf t
-vlan 2209
+vlan 22XX
  name VLAN_Primaria
 exit
-vlan 2309
+vlan 23XX
  name VLAN_Secundaria
 exit
-vlan 2009
+vlan 20XX
  name VLAN_Admin
 exit
-vlan 2409
+vlan 24XX
  name VLAN_Nativa
 exit
 ```
@@ -65,17 +65,17 @@ exit
 ```batch
 int eth0/1
  switchport mode access
- switchport access vlan 2209
+ switchport access vlan 22XX
 exit
 
 int eth0/2
  switchport mode access
- switchport access vlan 2309
+ switchport access vlan 23XX
 exit
 
 int eth0/3
  switchport mode access
- switchport access vlan 2009
+ switchport access vlan 20XX
 exit
 ```
 
@@ -85,8 +85,8 @@ exit
 int e0/0
  sw tr enc dot1q
  sw mo tr
- sw tr nat vlan 2409
- sw tr all vlan 2009,2209,2309,2409
+ sw tr nat vlan 24XX
+ sw tr all vlan 20XX,22XX,23XX,24XX
 exit
 exit
 wr
@@ -161,10 +161,10 @@ Password changed
 
 ```batch
 /interface vlan
-add interface=ether2 name=vlan_primaria vlan-id=2209
-add interface=ether2 name=vlan_secundaria vlan-id=2309
-add interface=ether2 name=vlan_admin vlan-id=2009
-add interface=ether2 name=vlan_nativa vlan-id=2409
+add interface=ether2 name=vlan_primaria vlan-id=22XX
+add interface=ether2 name=vlan_secundaria vlan-id=23XX
+add interface=ether2 name=vlan_admin vlan-id=20XX
+add interface=ether2 name=vlan_nativa vlan-id=24XX
 ```
 
 ### 2. Asignar IPs a las Interfaces VLAN del Mikrotik
