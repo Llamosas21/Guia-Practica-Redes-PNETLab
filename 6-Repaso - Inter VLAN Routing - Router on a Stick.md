@@ -14,7 +14,7 @@ Permitir la comunicación entre dispositivos ubicados en distintas VLANs mediant
 
 ## 🛋 Topología
 
-![[Repaso - Inter VLAN Routing - Router on a Stick.png]]
+![Inter VLAN](Imagenes/6-Repaso%20-%20Inter%20VLAN%20Routing%20-%20Router%20on%20a%20Stick/Repaso%20-%20Inter%20VLAN%20Routing%20-%20Router%20on%20a%20Stick.png)
 - `ether1`: WAN (Internet)
 - `ether2`: Trunk hacia Switch26
 - VLANs usadas: 118 (PING), 218 (PONG), 318 (NATIVA)
