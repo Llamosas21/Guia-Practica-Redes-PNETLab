@@ -148,6 +148,8 @@ access-list 1 permit 172.26.XX.0 0.0.0.255
 access-list 1 permit 172.20.XX.0 0.0.0.255
 
 ip nat inside source list 1 interface e0/0 overload
+
+wr
 ```
 
 ## 💼 CONFIGURACIÓN VPC (VLAN 2718 - IP ESTÁTICA)
