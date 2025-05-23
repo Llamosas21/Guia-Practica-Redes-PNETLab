@@ -21,6 +21,6 @@ Cada práctica incluye los pasos de configuración necesarios y conceptos básic
 ## Autor
 
 - **Llamosas21**
-
+- **Luciano-Joaquin-Toledo**
 ---
 
