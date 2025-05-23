@@ -88,6 +88,9 @@ interface e0/0
 ### 1. Crear subinterfaces con gateway para cada VLAN
 
 ```batch
+enable 
+configure terminal
+
 interface e0/1.25XX
  encapsulation dot1Q 25XX
  ip address 172.25.XX.1 255.255.255.0
