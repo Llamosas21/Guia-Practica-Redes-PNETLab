@@ -43,7 +43,6 @@ ping 10.20X.XX.1
 ping 8.8.8.8
 
 ---
----
 
 ## 💻 Mikrotik - Configuración completa
 
@@ -196,5 +195,6 @@ ip dhcp pool VLAN1XX
  network 10.1XX.XX.0 255.255.255.0
  default-router 10.1XX.XX.1
  dns-server 8.8.8.8
+
 
 """
