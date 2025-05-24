@@ -38,8 +38,8 @@ Permitir la comunicación entre dispositivos ubicados en distintas VLANs mediant
 
 ### En VPC
 show ip
-ping 10.10X.X.1
-ping 10.20X.X.1
+ping 10.10X.XX.1
+ping 10.20X.XX.1
 ping 8.8.8.8
 
 ---
@@ -63,7 +63,7 @@ add address=10.2XX.XX.1/24 interface=vlan2XX comment="GW VLAN 2XX"
 
 ### DHCP Server para VLAN 11X
 /ip pool
-add name=dhcp_pool_1xx ranges=10.1xx.xx.10-10.1xx.xx.50
+add name=dhcp_pool_1XX ranges=10.1XX.XX.10-10.1XX.XX.50
 
 /ip dhcp-server
 add name=dhcp_vlan1XX interface=vlan1XX address-pool=dhcp_pool_1XX disabled=no
@@ -172,16 +172,16 @@ int e0/1
 
 int e0/1.1XX
  encap dot1Q 1XX
- ip addr 10.1XX.X.1 255.255.255.0
+ ip addr 10.1XX.XX.1 255.255.255.0
 
 int e0/1.2XX
  encap dot1Q 2XX
- ip addr 10.2XX.X.1 255.255.255.0
+ ip addr 10.2XX.XX.1 255.255.255.0
 
 ip nat inside source list 1 int e0/0 overload
 
-access-list 1 permit 10.1XX.X.0 0.0.0.255
-access-list 1 permit 10.2XX.X.0 0.0.0.255
+access-list 1 permit 10.1XX.XX.0 0.0.0.255
+access-list 1 permit 10.2XX.XX.0 0.0.0.255
 
 int e0/0
  ip nat outside
@@ -193,8 +193,8 @@ int e0/1.2XX
  ip nat inside
 
 ip dhcp pool VLAN1XX
- network 10.1XX.X.0 255.255.255.0
- default-router 10.1XX.X.1
+ network 10.1XX.XX.0 255.255.255.0
+ default-router 10.1XX.XX.1
  dns-server 8.8.8.8
 
 """
