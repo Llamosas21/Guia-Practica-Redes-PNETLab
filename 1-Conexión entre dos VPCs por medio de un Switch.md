@@ -15,7 +15,7 @@ Para esta conexión se utilizará el Rango:
 	
 	- Ip pool: 192.168.111.1 - 192.168.111.254
 
-![Inter VLAN](Imagenes/1-Conexión%20entre%20dos%20PCs%20por%20medio%20de%20un%20Switch/Esquema%201.png)
+![Inter VLAN](Imagenes/1-Conexión%20entre%20dos%20PCs%20por%20medio%20de%20un%20Switch/Esquema%202.png)
 
 ### Asignar IP a las VPCs
 
