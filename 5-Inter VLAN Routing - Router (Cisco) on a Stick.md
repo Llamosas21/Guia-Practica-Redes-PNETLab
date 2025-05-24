@@ -152,7 +152,7 @@ ip nat inside source list 1 interface e0/0 overload
 wr
 ```
 
-## 💼 CONFIGURACIÓN VPC (VLAN 2718 - IP ESTÁTICA)
+## 💼 CONFIGURACIÓN VPC (IP ESTÁTICA)
 
 ```batch
 ip 172.20.XX.10 255.255.255.0 172.20.XX.1
