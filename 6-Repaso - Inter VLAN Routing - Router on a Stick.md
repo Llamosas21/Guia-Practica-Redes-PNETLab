@@ -85,7 +85,7 @@ add chain=srcnat out-interface=ether1 action=masquerade comment="NAT"
 ### VPC 1 (VLAN 1XX)
 - IP: automática (DHCP)
 
-### VPC30 (VLAN 2XX)
+### VPC 2 (VLAN 2XX)
 Config. manual:
 ```batch 
 ip 10.2XX.XX.10 255.255.255.0 10.2XX.XX.1
@@ -95,7 +95,7 @@ ip 10.2XX.XX.10 255.255.255.0 10.2XX.XX.1
 
 ## 🛠️ Switch Cisco - Config
 
-### Switch 3 (Core - troncales)
+### Switch 1 (Core - troncales)
 ```batch 
 vlan 1XX
 vlan 2XX
@@ -130,7 +130,7 @@ int e0/1
  switchport mode access
  switchport access vlan 2XX
 ```
-### Switch28 (Acceso a VPC 1 - VLAN 1XX)
+### Switch 3 (Acceso a VPC 1 - VLAN 1XX)
 ```batch 
 vlan 1XX
 vlan 3XX
@@ -207,5 +207,56 @@ ip dhcp pool VLAN1XX
  default-router 10.1XX.XX.1
  dns-server 8.8.8.8
 ```
+---
+## 🛠️ Switch Cisco - Config
 
-"""
+### Switch 1 (Core - troncales)
+```batch 
+vlan 1XX
+vlan 2XX
+vlan 3XX
+
+int e0/0
+ switchport mode trunk
+ switchport trunk encap dot1q
+ switchport trunk native vlan 3XX
+
+int e0/1
+ switchport mode trunk
+ switchport trunk encap dot1q
+ switchport trunk native vlan 3XX
+
+int e0/2
+ switchport mode trunk
+ switchport trunk encap dot1q
+ switchport trunk native vlan 3XX
+```
+### Switch 2 (Acceso a VPC2 - VLAN 2XX)
+```batch 
+vlan 2XX
+vlan 3XX
+
+int e0/0
+ switchport mode trunk
+ switchport trunk encap dot1q
+ switchport trunk native vlan 3XX
+
+int e0/1
+ switchport mode access
+ switchport access vlan 2XX
+```
+### Switch 3 (Acceso a VPC 1 - VLAN 1XX)
+```batch 
+vlan 1XX
+vlan 3XX
+
+int e0/0
+ switchport mode trunk
+ switchport trunk encap dot1q
+ switchport trunk native vlan 3XX
+
+int e0/1
+ switchport mode access
+ switchport access vlan 1XX
+```
+---
