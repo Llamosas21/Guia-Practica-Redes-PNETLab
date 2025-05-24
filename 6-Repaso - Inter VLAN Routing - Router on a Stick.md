@@ -160,7 +160,7 @@ Permitir la comunicación entre dispositivos ubicados en distintas VLANs mediant
 
 ## 🛋 Topología
 
-![Inter VLAN](magenes/6-Inter-VLAN%20Routing%20-%20Router%20on%20a%20Stick%20(Mikrotik%20y%20Cisco)/Esquema%206B.png)
+![Inter VLAN](Imagenes/6-Inter-VLAN%20Routing%20-%20Router%20on%20a%20Stick%20(Mikrotik%20y%20Cisco)/Esquema%206B.png)
 
 ---
 
