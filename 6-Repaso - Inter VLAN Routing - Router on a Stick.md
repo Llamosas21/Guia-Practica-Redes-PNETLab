@@ -259,4 +259,6 @@ int e0/1
  switchport mode access
  switchport access vlan 1XX
 ```
+
 ---
+**Luciano Toledo - Santiago Llamosas - Red de Laboratorio - Inter VLAN Routing Router on a Stick**
