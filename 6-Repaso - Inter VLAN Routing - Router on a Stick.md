@@ -261,4 +261,4 @@ int e0/1
 ```
 
 ---
-**Luciano Toledo - Santiago Llamosas - Red de Laboratorio - Inter VLAN Routing Router on a Stick**
+*Luciano Toledo - Santiago Llamosas - Red de Laboratorio - Inter VLAN Routing Router on a Stick*
