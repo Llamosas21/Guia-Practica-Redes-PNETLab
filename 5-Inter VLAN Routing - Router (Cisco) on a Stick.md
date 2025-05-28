@@ -188,4 +188,4 @@ ping 8.8.8.8         # Salida a Internet
     
 
 ---
-**Luciano Toledo - Santiago Llamosas - Red de Laboratorio - Router on a Stick Router cisco**
+*Luciano Toledo - Santiago Llamosas - Red de Laboratorio - Router on a Stick Router cisco*
