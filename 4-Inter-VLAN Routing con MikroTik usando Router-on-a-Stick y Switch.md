@@ -265,5 +265,5 @@ ip 172.20.xx.xx 255.255.255.0 172.20.xx.1
   ```
 
 ---
-
+**Luciano Toledo - Santiago Llamosas - Red de Laboratorio - Inter-VLAN Routing con MikroTik usando Router on a Stick y Switch**
 *Santiago Llamosas - Red de Laboratorio - Router on a Stick*
