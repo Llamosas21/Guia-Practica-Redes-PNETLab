@@ -16,7 +16,7 @@ El objetivo fue implementar un **portal cautivo (Hotspot)** utilizando un **rout
 |Nube de conexión|`Cloud0 (Mgmt)`|Simulación de acceso a Internet (WAN)|
 
 
-![Hostpot](Imagenes/6-Inter-VLAN%20Routing%20-%20Router%20on%20a%20Stick%20(Mikrotik%20y%20Cisco)/Esquema%206A.png)
+![Hostpot](Imagenes/7-Portal%20Cautivo%20en%20Mikrotik/HOSTPOT%20(PORTAL%20CAUTIVO)%20MIKROTIK.png)
 
 ---
 
