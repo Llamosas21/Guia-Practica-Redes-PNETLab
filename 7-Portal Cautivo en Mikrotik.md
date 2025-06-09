@@ -216,5 +216,6 @@ add address=10.xxx.xxx.196 type=blocked comment="INVITADO BLOQUEADO"`
 
 ### 10. PORTAL CAUTIVO (IMAGENES)
 
-![[Logout.png]]
-![[Login.png]]![[Status.png]]
+![Hostpot](Imagenes/7-Portal%20Cautivo%20en%20Mikrotik/Login.png)
+![Hostpot](Imagenes/7-Portal%20Cautivo%20en%20Mikrotik/Status.png)
+![Hostpot](Imagenes/7-Portal%20Cautivo%20en%20Mikrotik/Loguot.png)
