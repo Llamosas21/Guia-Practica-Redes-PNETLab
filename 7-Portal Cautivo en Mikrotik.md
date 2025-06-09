@@ -213,7 +213,7 @@ add address=10.xxx.xxx.196 type=blocked comment="INVITADO BLOQUEADO"`
 /ip hotspot profile set [find default=yes] html-directory=xxxx
 ```
 
-[[7-%20HOTSPOT%20HTML]]
+[PORTAL PERSONALIZADO HTML]([https://url.com](https://github.com/Llamosas21/Guia-Practica-Redes-PNETLab/tree/main/7-%20HOTSPOT%20HTML))
 
 
 
