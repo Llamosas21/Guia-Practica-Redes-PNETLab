@@ -14,7 +14,7 @@ El objetivo fue implementar un **portal cautivo (Hotspot)** utilizando un **rout
 |Cisco Switch|`IOSv-L2`|Conmutador para simular red física|
 |Alpine Linux (x3)|`alpine-3.x-xfce.qcow2`|Dispositivos cliente (usuarios finales)|
 |Nube de conexión|`Cloud0 (Mgmt)`|Simulación de acceso a Internet (WAN)|
-![[HOSTPOT (PORTAL CAUTIVO) MIKROTIK.png]]
+![Hostpot](Imagenes/6-Inter-VLAN%20Routing%20-%20Router%20on%20a%20Stick%20(Mikrotik%20y%20Cisco)/Esquema%206A.png)
 ---
 
 ### 🔹 Esquema IP aplicado
