@@ -71,25 +71,25 @@ Se configuró el switch para manejar las VLANs y establecer el puerto troncal ha
 configure terminal
 
 ! Configurar la interfaz troncal
-interface GigabitEthernet0/0
+interface Ethernet0/0
  switchport mode trunk
  switchport trunk native vlan 468
  no shutdown
 
 ! Configurar interfaces de acceso
-interface GigabitEthernet0/1
+interface Ethernet0/1
  switchport mode access
  switchport access vlan 168
  no shutdown
 exit
 
-interface GigabitEthernet0/2
+interface Ethernet0/2
  switchport mode access
  switchport access vlan 268
  no shutdown
 exit
 
-interface GigabitEthernet0/3
+interface Ethernet0/3
  switchport mode access
  switchport access vlan 368
  no shutdown
