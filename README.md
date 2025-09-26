@@ -11,6 +11,7 @@ Este repositorio contiene una serie de prácticas de configuración de redes de 
 - **5. [Inter VLAN Routing - Router (Cisco) on a Stick](5-Inter-VLAN-Routing-Router-(Cisco)-on-a-Stick.md)**
 - **6. [Repaso Inter-VLAN Routing Router-on-a-Stick](6-Repaso-Inter-VLAN-Routing-Router-on-a-Stick.md)**
 - **7. [Portal Cautivo en Mikrotik](7-Portal-Cautivo-en-Mikrotik.md)**
+- **8. [Instalación de firewall en router MIKROTIK.](8-Instalación-de-firewall-en-router-MIKROTIK.md)**
 
 Cada práctica incluye los pasos de configuración necesarios y conceptos básicos para entender su implementación.
 
